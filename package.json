@@ -1,0 +1,21 @@
+{
+  "name": "trcats",
+  "version": "1.0.0",
+  "description": "a startup project",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git remote add origin https://github.com/fardin-developer/TRCATS.git"
+  },
+  "author": "Fardin",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "moment-timezone": "^0.5.45",
+    "mongoose": "^8.1.1"
+  }
+}
