@@ -14,17 +14,17 @@ exports.sendOTP = (email, OTP) => {
         
         const mailOptions = {
             from: "anotherlogin99@gmail.com",
-            to: email, // use the provided email instead of hardcoded one
-            subject: "Your OTP", // customize subject if needed
-            text: `Your OTP is: ${OTP}` // include OTP in the email body
+            to: email, 
+            subject: "Your OTP", 
+            text: `Your OTP is: ${OTP}` 
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.error("Error sending email: ", error);
-                reject(error); // reject the promise if there's an error
+                reject(error); 
             } else {
-                resolve('OTP sent successfully'); // resolve the promise if email sent successfully
+                resolve('OTP sent successfully'); 
             }
         });
     });
