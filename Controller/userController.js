@@ -1,5 +1,6 @@
 const User = require('../Model/UserModel')
-const moment = require('moment-timezone')
+const moment = require('moment-timezone');
+const { sendOTP } = require('../util/sendOTP')
 
 exports.CreateUser = async (req, res) => {
     const now = moment.tz('Asia/Kolkata')
@@ -9,19 +10,28 @@ exports.CreateUser = async (req, res) => {
     try {
         let user = await User.findOne({ email })
         // console.log(now.format())
+        let otp = Math.floor(Math.random() * 900) + 100;
+
         if (!user) {
             user = new User({
                 name: name,
                 email: email,
                 password: password,
                 confirmPassword: confirmPassword,
-                dateOfJoin: now.format()
-            })
-            await user.save()
-            console.log('data saved successfully')
-            return res.status(200).json({
-                data: 'data saved successfully'
-            })
+                dateOfJoin: now.format(),
+                OTP: otp
+            });
+
+            const data = await sendOTP(email, otp);
+
+            console.log(data);
+
+
+
+            await user.save();
+            return res.json(data)
+
+
         } else {
             console.log('user exist already')
 

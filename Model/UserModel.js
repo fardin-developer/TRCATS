@@ -20,6 +20,12 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  OTP:{
+    type:Number,
+  },
+  OTPCreatedTime: { type: Date },
+  OTPAttempts: { type: Number, default: 0 },
+  isBlocked: { type: Boolean, default: false },
 
 });
 
