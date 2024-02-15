@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 const dailyLogSchema = new mongoose.Schema({
     userID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', 
+        ref: 'User',
+        required: true
+    },
+    SystemID: {
+        type: String,
         required: true
     },
     date: {

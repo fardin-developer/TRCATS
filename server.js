@@ -5,6 +5,7 @@ const user = require('./routes/user');
 const home = require('./routes/home');
 const dailyLog = require('./routes/dailyLogs')
 const instruction = require('./routes/instruct')
+const sytemID = require('./routes/systemID')
 const connectDB = require('./config/connectDB');
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json')
@@ -21,6 +22,7 @@ app.use('/api',user);
 app.use('/api',home);
 app.use('/api',dailyLog);
 app.use('/api',instruction);
+app.use('/api',sytemID);
 // app.use('user/',user)
 let port = 3000
 app.listen(port, () => {

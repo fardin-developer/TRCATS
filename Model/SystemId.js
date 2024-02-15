@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const systemId = new mongoose.Schema({
-    name:String
+    systemID:String
 });
 
 

@@ -63,47 +63,83 @@ exports.VerifyOtp = async (req, res) => {
                 const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
                     expiresIn: '1h',
                 });
-                res.status(200).json({ 
-                    success:true,
-                    data:token
-                 });
-            }else{
-                
+                res.status(200).json({
+                    success: true,
+                    data: token
+                });
+            } else {
+
             }
         }
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
 
     }
-   
+
 }
 
 
-exports.Login = async(req,res)=>{
+exports.Login = async (req, res) => {
 
     try {
         const { email, password } = req.body;
         console.log(email);
         const user = await User.findOne({ email });
         if (!user) {
-        return res.status(401).json({ error: 'Authentication failed' });
+            return res.status(401).json({ error: 'Authentication failed' });
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-        return res.status(401).json({ error: 'Authentication failed' });
+            return res.status(401).json({ error: 'Authentication failed' });
         }
         const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
-        expiresIn: '24000h',
+            expiresIn: '24000h',
         });
-        res.status(200).json({ 
-            success:true,
-            token });
-        } catch (error) {
+        res.status(200).json({
+            success: true,
+            token
+        });
+    } catch (error) {
         res.status(500).json({ error: 'Login failed' });
-        }
-        
+    }
+
 }
 
-exports.UpdateUser = async (req,res)=>{
-    console.log(req.body.name);
+exports.UpdateUser = async (req, res) => {
+    const { email, systemID } = req.body;
+    console.log(email);
+    console.log(systemID);
+
+    try {
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            return res.json({
+                success: false,
+                message: "User does not exist"
+            });
+        }
+
+        if (user.systemIDs.includes(systemID)) {
+            return res.json({
+                success: false,
+                message: "This systemID is already assigned"
+            });
+        }
+
+        user.systemIDs.push(systemID);
+        await user.save();
+
+        res.json({
+            success: true,
+            message: "SystemID updated"
+        });
+    } catch (error) {
+        console.error("Error in updating user:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
 }
+

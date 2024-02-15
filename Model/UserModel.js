@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  systemIDs: [{ type: String }],
   dateOfJoin: {
     type: Date,
     required: true,
