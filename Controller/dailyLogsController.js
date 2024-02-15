@@ -9,6 +9,7 @@ exports.postDailyLog = async (req, res) => {
     let actualtoday = todayIST.valueOf();
     // console.log(formattedDateInDateObj);
     const {
+        SystemID,
         OperatorName,
         Temperature_C,
         pH_of_the_reaction_zone,
@@ -40,6 +41,7 @@ exports.postDailyLog = async (req, res) => {
         })
     } else {
         let dailyLog = new DailyLog({
+            SystemID,
             userID: req.userId,
             date: formattedDateInDateObj,
             OperatorName,
