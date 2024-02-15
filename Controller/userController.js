@@ -6,12 +6,12 @@ const bcrypt = require('bcrypt');
 
 
 exports.CreateUser = async (req, res) => {
-    const now = moment.tz('Asia/Kolkata')
+    const now = moment.tz('Asia/Kolkata');
+    console.log(now);
 
     const { name, email, password, confirmPassword } = req.body
     try {
         let user = await User.findOne({ email })
-        // console.log(now.format());
         const hashedPassword = await bcrypt.hash(password, 10);
 
         let otp = Math.floor(Math.random() * 900000) + 100000;
@@ -78,6 +78,7 @@ exports.VerifyOtp = async (req, res) => {
    
 }
 
+
 exports.Login = async(req,res)=>{
 
     try {
@@ -101,4 +102,8 @@ exports.Login = async(req,res)=>{
         res.status(500).json({ error: 'Login failed' });
         }
         
+}
+
+exports.UpdateUser = async (req,res)=>{
+    console.log(req.body.name);
 }

@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 require('dotenv').config()
 const user = require('./routes/user');
-const home = require('./routes/home')
+const home = require('./routes/home');
+const dailyLog = require('./routes/dailyLogs')
+const instruction = require('./routes/instruct')
 const connectDB = require('./config/connectDB');
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json')
@@ -16,7 +18,9 @@ app.use((err, req, res, next) => {
 connectDB();
 
 app.use('/api',user);
-app.use('/api',home)
+app.use('/api',home);
+app.use('/api',dailyLog);
+app.use('/api',instruction);
 // app.use('user/',user)
 let port = 3000
 app.listen(port, () => {
