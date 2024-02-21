@@ -1,4 +1,5 @@
 const User = require('../Model/UserModel');
+const SystemUser = require('../Model/SystemUser')
 const moment = require('moment-timezone');
 const jwt = require("jsonwebtoken");
 const { sendOTP } = require('../util/sendOTP');
@@ -28,7 +29,7 @@ exports.CreateUser = async (req, res) => {
 
             const data = await sendOTP(email, otp);
 
-            console.log(data);
+            // console.log(data);
 
 
 
@@ -83,7 +84,7 @@ exports.Login = async (req, res) => {
 
     try {
         const { email, password } = req.body;
-        console.log(email);
+        // console.log(email);
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({ error: 'Authentication failed' });
@@ -106,12 +107,14 @@ exports.Login = async (req, res) => {
 }
 
 exports.UpdateUser = async (req, res) => {
+    const now = moment.tz('Asia/Kolkata');
     const { email, systemID } = req.body;
     console.log(email);
     console.log(systemID);
 
     try {
         let user = await User.findOne({ email });
+        console.log(user);
 
         if (!user) {
             return res.json({
@@ -120,15 +123,21 @@ exports.UpdateUser = async (req, res) => {
             });
         }
 
-        if (user.systemIDs.includes(systemID)) {
+        if (user.systemID === systemID) {
             return res.json({
                 success: false,
                 message: "This systemID is already assigned"
             });
         }
-
-        user.systemIDs.push(systemID);
-        await user.save();
+        let newUserCreate = new User({
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            confirmPassword: user.confirmPassword,
+            dateOfJoin: now.format(),
+        })
+        newUserCreate.systemID = systemID;
+        await newUserCreate.save();
 
         res.json({
             success: true,
@@ -142,4 +151,62 @@ exports.UpdateUser = async (req, res) => {
         });
     }
 }
+
+exports.CreateSystemUser = async (req, res) => {
+    const { email, systemID } = req.body;
+    try {
+        if (!email || !systemID) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and systemID are required."
+            });
+        }
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found."
+            });
+        }
+
+        let systemUser = new SystemUser({
+            userID: user._id,
+            systemID
+        });
+
+        await systemUser.save();
+
+        // Send a success response
+        res.status(201).json({
+            success: true,
+            message: "System user created successfully."
+        });
+    } catch (error) {
+        // Asynchronous error handling
+        console.error("Error in creating system user:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
+
+exports.allSystemUser = async (req, res) => {
+    try {
+        let systemUsers = await SystemUser.find().populate('userID', 'email name');
+        // Populate 'userID' field with 'email' and 'name' fields from the 'User' model
+
+        res.json(systemUsers);
+    } catch (error) {
+        console.error("Error fetching system users:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
 

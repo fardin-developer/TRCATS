@@ -29,5 +29,8 @@ router.post('/create-systemid', async (req, res) => {
         });
     }
 });
+router.get('/get-all-systemid',(req,res)=>{
+    
+})
 
 module.exports = router;
