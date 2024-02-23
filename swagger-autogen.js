@@ -9,7 +9,7 @@ const config = {
         description: '',
     },
     tags: [ ],
-    host: 'trcats.fardindev.me',
+    host: 'trcats.fardindev.me/api',
     schemes: ['http', 'https'],
 };
 

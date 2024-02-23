@@ -5,7 +5,7 @@
     "description": "",
     "version": "1.0.0"
   },
-  "host": "trcats.fardindev.me",
+  "host": "trcats.fardindev.me/api",
   "basePath": "/",
   "schemes": [
     "http",

@@ -5,11 +5,14 @@ const user = require('./routes/user');
 const home = require('./routes/home');
 const dailyLog = require('./routes/dailyLogs')
 const instruction = require('./routes/instruct')
-const sytemID = require('./routes/systemID')
+const sytemID = require('./routes/systemID');
+const cors = require('cors');
 const connectDB = require('./config/connectDB');
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json')
 app.use(express.json());
+app.use(cors());
+
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 app.use((err, req, res, next) => {
