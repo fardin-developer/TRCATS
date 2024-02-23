@@ -4,6 +4,8 @@ const moment = require('moment-timezone');
 const jwt = require("jsonwebtoken");
 const { sendOTP } = require('../util/sendOTP');
 const bcrypt = require('bcrypt');
+const gravatar = require('gravatar');
+
 
 
 exports.CreateUser = async (req, res) => {
@@ -12,10 +14,13 @@ exports.CreateUser = async (req, res) => {
 
     const { name, email, password, confirmPassword } = req.body
     try {
+         let profileURL =  gravatar.url(email, {s: '100', r: 'x', d: 'retro'}, true);
+
         let user = await User.findOne({ email })
         const hashedPassword = await bcrypt.hash(password, 10);
 
         let otp = Math.floor(Math.random() * 900000) + 100000;
+         
 
         if (!user) {
             user = new User({
@@ -23,6 +28,7 @@ exports.CreateUser = async (req, res) => {
                 email: email,
                 password: hashedPassword,
                 confirmPassword: confirmPassword,
+                profileURL,
                 dateOfJoin: now.format(),
                 OTP: otp
             });
@@ -34,15 +40,19 @@ exports.CreateUser = async (req, res) => {
 
 
             await user.save();
-            return res.json(data)
+            return res.json({
+                success:true,
+                data:data
+            })
 
 
         } else {
-            console.log('user exist already')
+            // console.log('user exist already')
 
             return res.json({
-                data: 'user exist already',
-                user: user
+                success:false,
+                message: 'user exist already',
+                data: user
             })
         }
     } catch (error) {
@@ -98,7 +108,8 @@ exports.Login = async (req, res) => {
         });
         res.status(200).json({
             success: true,
-            token
+            token,
+            data:user
         });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
@@ -199,7 +210,10 @@ exports.allSystemUser = async (req, res) => {
         let systemUsers = await SystemUser.find().populate('userID', 'email name');
         // Populate 'userID' field with 'email' and 'name' fields from the 'User' model
 
-        res.json(systemUsers);
+        res.status(200).json({
+            success:true,
+            data:systemUsers
+        });
     } catch (error) {
         console.error("Error fetching system users:", error);
         res.status(500).json({

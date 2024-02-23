@@ -29,8 +29,21 @@ router.post('/create-systemid', async (req, res) => {
         });
     }
 });
-router.get('/get-all-systemid',(req,res)=>{
-    
+router.get('/get-all-systemid',async(req,res)=>{
+    try {
+        const systemid = await SystemId.find();
+        res.json({
+            success:true,
+            data:systemid
+        })
+
+    } catch (error) {
+        res.json({
+            success:false,
+            data:"something wrong"
+        })
+    }
+
 })
 
 module.exports = router;

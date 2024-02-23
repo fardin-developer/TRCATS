@@ -17,6 +17,12 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   systemID: { type: String },
+  score:{
+    type:Number
+  },
+  profileURL:{
+    type:String
+  },
   dateOfJoin: {
     type: Date,
     required: true,
