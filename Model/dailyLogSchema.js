@@ -64,6 +64,14 @@ const dailyLogSchema = new mongoose.Schema({
     },
     Remarks_if_any: {
         type: String
+    },
+    score:{
+        type:Number,
+        default:100
+    },
+    scoreStatus:{
+        type:Boolean,
+        default:false
     }
 });
 

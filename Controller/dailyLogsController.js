@@ -37,7 +37,7 @@ exports.postDailyLog = async (req, res) => {
     if (dailylogExist) {
         return res.status(500).json({
             success: false,
-            data: " Already exist"
+            data: "already exist"
         })
     } else {
         let dailyLog = new DailyLog({
@@ -69,3 +69,45 @@ exports.postDailyLog = async (req, res) => {
 
 
 }
+
+exports.lastSevenDaysScore = async (req, res) => {
+    try {
+        const sevenDaysAgo = moment().tz("Asia/Kolkata").subtract(7, 'days').startOf('day');
+
+        // Aggregate scores for the last 7 days
+        const scoreHistory = await DailyLog.aggregate([
+            {
+                $match: {
+                    date: { $gte: sevenDaysAgo.toDate() },
+                    scoreStatus:true 
+                }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+                    score: { $sum: "$score" }
+                }
+            },
+            {
+                $sort: { _id: 1 } 
+            }
+        ]);
+        let totalScore = 0;
+ 
+         scoreHistory.forEach((item)=>{
+             totalScore += item.score
+         })
+
+        res.status(200).json({
+            success: true,
+            scoreHistory: scoreHistory,
+            totalScore
+        });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+};
