@@ -44,6 +44,6 @@ router.get('/get-all-systemid',async(req,res)=>{
         })
     }
 
-})
+});
 
 module.exports = router;

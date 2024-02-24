@@ -12,7 +12,8 @@ exports.CreateUser = async (req, res) => {
     const now = moment.tz('Asia/Kolkata');
     console.log(now);
 
-    const { name, email, password, confirmPassword } = req.body
+    const { name, email, password, confirmPassword } = req.body;
+    console.log(req.body);
     try {
          let profileURL =  gravatar.url(email, {s: '100', r: 'x', d: 'retro'}, true);
 
@@ -117,7 +118,7 @@ exports.Login = async (req, res) => {
 
 }
 
-exports.UpdateUser = async (req, res) => {
+exports.updateSystemID = async (req, res) => {
     const now = moment.tz('Asia/Kolkata');
     const { email, systemID } = req.body;
     console.log(email);
@@ -163,6 +164,33 @@ exports.UpdateUser = async (req, res) => {
     }
 }
 
+exports.updateBadge = async (req,res)=>{
+    try {
+       const {email} = req.body;
+       const user = await User.findOneAndUpdate({email:email},{badge:"badge 1"});
+       let data = await user.save();
+       res.json({
+        success:true,
+        data:data
+       })
+    } catch (error) {
+        
+    }
+}
+exports.updateScore = async (req,res)=>{
+    try {
+       const {email} = req.body;
+       const user = await User.findOneAndUpdate({email:email},{score:20});
+       let data = await user.save();
+       res.json({
+        success:true,
+        data:data
+       })
+    } catch (error) {
+        
+    }
+}
+
 exports.CreateSystemUser = async (req, res) => {
     const { email, systemID } = req.body;
     try {
@@ -203,7 +231,6 @@ exports.CreateSystemUser = async (req, res) => {
         });
     }
 };
-
 
 exports.allSystemUser = async (req, res) => {
     try {

@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema({
   score:{
     type:Number
   },
+  badge:{
+    type:String,
+  },
   profileURL:{
     type:String
   },
