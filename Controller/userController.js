@@ -10,18 +10,16 @@ const gravatar = require('gravatar');
 
 exports.CreateUser = async (req, res) => {
     const now = moment.tz('Asia/Kolkata');
-    console.log(now);
 
     const { name, email, password, confirmPassword } = req.body;
-    console.log(req.body);
     try {
-         let profileURL =  gravatar.url(email, {s: '100', r: 'x', d: 'retro'}, true);
+        let profileURL = gravatar.url(email, { s: '100', r: 'x', d: 'retro' }, true);
 
         let user = await User.findOne({ email })
         const hashedPassword = await bcrypt.hash(password, 10);
 
         let otp = Math.floor(Math.random() * 900000) + 100000;
-         
+
 
         if (!user) {
             user = new User({
@@ -36,14 +34,13 @@ exports.CreateUser = async (req, res) => {
 
             const data = await sendOTP(email, otp);
 
-            // console.log(data);
 
 
 
             await user.save();
             return res.json({
-                success:true,
-                data:data
+                success: true,
+                data: data
             })
 
 
@@ -51,7 +48,7 @@ exports.CreateUser = async (req, res) => {
             // console.log('user exist already')
 
             return res.json({
-                success:false,
+                success: false,
                 message: 'user exist already',
                 data: user
             })
@@ -80,7 +77,10 @@ exports.VerifyOtp = async (req, res) => {
                     data: token
                 });
             } else {
-
+                res.status(200).json({
+                    success: false,
+                    data: "wrong otp"
+                });
             }
         }
     } catch (error) {
@@ -110,7 +110,7 @@ exports.Login = async (req, res) => {
         res.status(200).json({
             success: true,
             token,
-            data:user
+            data: user
         });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
@@ -164,30 +164,35 @@ exports.updateSystemID = async (req, res) => {
     }
 }
 
-exports.updateBadge = async (req,res)=>{
+exports.updateBadge = async (req, res) => {
     try {
-       const {email} = req.body;
-       const user = await User.findOneAndUpdate({email:email},{badge:"badge 3"});
-       let data = await user.save();
-       res.json({
-        success:true,
-        data:data
-       })
+        const { email, badge } = req.body;
+        const user = await User.findOneAndUpdate({ email: email }, { badge: badge });
+        let data = await user.save();
+        data.badge = badge
+        res.json({
+            success: true,
+            data: data
+        })
     } catch (error) {
-        
+        res.json({
+            success: false,
+            data: "something wrong"
+        })
     }
 }
 exports.updateBadgeAll = async (req, res) => {
     try {
-        const { data } = req.body;         
+        const { data } = req.body;
         for (const item of data) {
-            const { email, badge } = item.userID; 
-            await User.findOneAndUpdate({ email: email }, { badge: badge });
+            const { email, badge } = item;
+            let updateddata = await User.findOneAndUpdate({ email: email }, { badge: badge });
         }
 
         res.json({
             success: true,
-            message: `Badges updated successfully`
+            message: `Badges updated successfully`,
+            data: data
         });
     } catch (error) {
         console.error(error);
@@ -196,35 +201,38 @@ exports.updateBadgeAll = async (req, res) => {
 }
 
 
-exports.updateScore = async (req,res)=>{
+exports.updateScore = async (req, res) => {
     try {
-       const {email} = req.body;
-       const user = await User.findOneAndUpdate({email:email},{score:20});
-       let data = await user.save();
-       res.json({
-        success:true,
-        data:data
-       })
+        const { email } = req.body;
+        const user = await User.findOneAndUpdate({ email: email }, { score: 20 });
+        let data = await user.save();
+        res.json({
+            success: true,
+            data: data
+        })
     } catch (error) {
-        
+
     }
 }
 
 exports.updateScoreAll = async (req, res) => {
     try {
-        const { data } = req.body;         
+        const { data } = req.body;
         for (const item of data) {
-            const { email, badge } = item.userID; 
-            await User.findOneAndUpdate({ email: email }, { badge: badge });
+            const { email, score } = item;
+            await User.findOneAndUpdate({ email: email }, { score: score });
         }
 
         res.json({
             success: true,
-            message: `Badges updated successfully`
+            message: `Score updated successfully`
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+        res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        });
     }
 }
 
@@ -273,10 +281,32 @@ exports.allSystemUser = async (req, res) => {
     try {
         let systemUsers = await SystemUser.find().populate('userID', 'email name badge score');
         // Populate 'userID' field with 'email' and 'name' fields from the 'User' model
+        res.status(200).json({
+            success: true,
+            data: systemUsers
+        });
+    } catch (error) {
+        console.error("Error fetching system users:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+exports.allUser = async (req, res) => {
+    try {
+        let user = await User.find();
+        console.log(user);
+        let filteredUser = user.map(member => ({
+            name: member.name,
+            email: member.email,
+            badge: member.badge,
+            score: member.score
+        }));
 
         res.status(200).json({
-            success:true,
-            data:systemUsers
+            success: true,
+            data: filteredUser
         });
     } catch (error) {
         console.error("Error fetching system users:", error);

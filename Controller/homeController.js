@@ -40,7 +40,8 @@ exports.homePost = (req,res)=>{
         .then(savedHomePage => {
             console.log('Saved home page:', savedHomePage);
             return res.json({
-                success:true
+                success:true,
+                data:savedHomePage
             });
         })
         .catch(error => {

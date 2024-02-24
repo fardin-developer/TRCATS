@@ -76,4 +76,41 @@ exports.createBadge = async (req, res) => {
 
 };
 
+exports.leaderBoardResult = async (req, res) => {
+    try {
+        // Fetch all users and badges from the database
+        let users = await User.find();
+        let badges = await Badge.find();
 
+        let usersByBadge = {};
+        badges.forEach(badge => {
+            usersByBadge[badge.badgeName] = [];
+        });
+        // console.log(usersByBadge);
+
+
+        // Group users by their respective badges
+        users.forEach(user => {
+            if (usersByBadge[user.badge]) { 
+                usersByBadge[user.badge].push({
+                    name: user.name,
+                    email: user.email,
+                    score: user.score
+                });
+            } else {
+                console.log(`User ${user.name} has an invalid badge: ${user.badge}`);
+            }
+        });
+
+        res.status(200).json({
+            success: true,
+            data: usersByBadge
+        });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+};
