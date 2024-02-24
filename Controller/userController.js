@@ -167,7 +167,7 @@ exports.updateSystemID = async (req, res) => {
 exports.updateBadge = async (req,res)=>{
     try {
        const {email} = req.body;
-       const user = await User.findOneAndUpdate({email:email},{badge:"badge 1"});
+       const user = await User.findOneAndUpdate({email:email},{badge:"badge 3"});
        let data = await user.save();
        res.json({
         success:true,
@@ -177,6 +177,25 @@ exports.updateBadge = async (req,res)=>{
         
     }
 }
+exports.updateBadgeAll = async (req, res) => {
+    try {
+        const { data } = req.body;         
+        for (const item of data) {
+            const { email, badge } = item.userID; 
+            await User.findOneAndUpdate({ email: email }, { badge: badge });
+        }
+
+        res.json({
+            success: true,
+            message: `Badges updated successfully`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+}
+
+
 exports.updateScore = async (req,res)=>{
     try {
        const {email} = req.body;
@@ -188,6 +207,24 @@ exports.updateScore = async (req,res)=>{
        })
     } catch (error) {
         
+    }
+}
+
+exports.updateScoreAll = async (req, res) => {
+    try {
+        const { data } = req.body;         
+        for (const item of data) {
+            const { email, badge } = item.userID; 
+            await User.findOneAndUpdate({ email: email }, { badge: badge });
+        }
+
+        res.json({
+            success: true,
+            message: `Badges updated successfully`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 }
 
@@ -234,7 +271,7 @@ exports.CreateSystemUser = async (req, res) => {
 
 exports.allSystemUser = async (req, res) => {
     try {
-        let systemUsers = await SystemUser.find().populate('userID', 'email name');
+        let systemUsers = await SystemUser.find().populate('userID', 'email name badge score');
         // Populate 'userID' field with 'email' and 'name' fields from the 'User' model
 
         res.status(200).json({

@@ -18,10 +18,12 @@ const UserSchema = new mongoose.Schema({
   },
   systemID: { type: String },
   score:{
-    type:Number
+    type:Number,
+    default:0
   },
   badge:{
     type:String,
+    default:'none'
   },
   profileURL:{
     type:String
