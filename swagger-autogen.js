@@ -9,7 +9,7 @@ const config = {
         description: '',
     },
     tags: [ ],
-    host: 'https://trcats-production.up.railway.app/api',
+    host: 'trcats-production.up.railway.app/api',
     schemes: ['http', 'https'],
 };
 

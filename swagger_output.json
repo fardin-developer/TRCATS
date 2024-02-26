@@ -5,7 +5,7 @@
     "description": "",
     "version": "1.0.0"
   },
-  "host": "https://trcats-production.up.railway.app/api",
+  "host": "trcats-production.up.railway.app/api",
   "basePath": "/",
   "schemes": [
     "http",
