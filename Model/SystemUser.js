@@ -7,6 +7,10 @@ const SystemUserScherma = new mongoose.Schema({
     systemID: {
         type: String,
         require: true
+    },
+    dateOfJoin:{
+        type:String,
+        require:true
     }
 
 });

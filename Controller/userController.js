@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 const gravatar = require('gravatar');
 
 
-
 exports.CreateUser = async (req, res) => {
     const now = moment.tz('Asia/Kolkata');
 
@@ -238,6 +237,7 @@ exports.updateScoreAll = async (req, res) => {
 
 exports.CreateSystemUser = async (req, res) => {
     const { email, systemID } = req.body;
+    const now = moment.tz('Asia/Kolkata');
     try {
         if (!email || !systemID) {
             return res.status(400).json({
@@ -257,7 +257,8 @@ exports.CreateSystemUser = async (req, res) => {
 
         let systemUser = new SystemUser({
             userID: user._id,
-            systemID
+            systemID,
+            dateOfJoin:now.format()
         });
 
         await systemUser.save();

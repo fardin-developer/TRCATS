@@ -111,3 +111,7 @@ exports.lastSevenDaysScore = async (req, res) => {
         });
     }
 };
+
+exports.yourDailyData = async(req,res)=>{
+    
+}
