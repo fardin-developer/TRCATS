@@ -4,22 +4,22 @@ exports.homeRoute = (req, res) => {
   res.json(
     {
       success: true,
-      "banner_url": "https://example.com/logo.png",
+      "banner_url": "https://picsum.photos/200",
       "title": "Home Page",
       "items": [
         {
           "title": "Item 1",
-          "icon_url": "https://example.com/icons/item1.png",
+          "icon_url": "https://picsum.photos/200",
           "desc": "Description for Item 1"
         },
         {
           "title": "Item 2",
-          "icon_url": "https://example.com/icons/item2.png",
+          "icon_url": "https://picsum.photos/200",
           "desc": "Description for Item 2"
         },
         {
           "title": "Item 3",
-          "icon_url": "https://example.com/icons/item3.png",
+          "icon_url": "https://picsum.photos/200",
           "desc": "Description for Item 3"
         }
       ]

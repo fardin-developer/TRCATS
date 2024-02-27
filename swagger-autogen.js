@@ -10,7 +10,7 @@ const config = {
     },
     tags: [ ],
     host: 'trcats-production.up.railway.app/api',
-    schemes: ['http', 'https'],
+    schemes: ['https'],
 };
 
 swaggerAutogen(outputFile, endpointsFiles, config);
