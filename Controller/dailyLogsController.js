@@ -1,6 +1,7 @@
 const User = require('../Model/UserModel')
 const DailyLog = require('../Model/dailyLogSchema')
 const moment = require('moment-timezone');
+const mongoose = require('mongoose')
 
 exports.postDailyLog = async (req, res) => {
   const now = moment().tz('Asia/Kolkata')
@@ -71,6 +72,7 @@ exports.postDailyLog = async (req, res) => {
 
 exports.lastSevenDaysScore = async (req, res) => {
   try {
+    const userId = new mongoose.Types.ObjectId(req.userId);
     const sevenDaysAgo = moment()
       .tz('Asia/Kolkata')
       .subtract(7, 'days')
@@ -81,6 +83,7 @@ exports.lastSevenDaysScore = async (req, res) => {
       {
         $match: {
           date: { $gte: sevenDaysAgo.toDate() },
+          userID:userId,
           scoreStatus: true
         }
       },

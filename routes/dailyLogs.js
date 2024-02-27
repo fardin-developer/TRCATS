@@ -4,7 +4,7 @@ const {postDailyLog, lastSevenDaysScore,yourDailyData}= require('../Controller/d
 const jwtAuth = require('../middleware/jwtAuth');
 
 router.route('/daily-log').post(jwtAuth, postDailyLog)
-router.route('/week-score-history').get(lastSevenDaysScore)
+router.route('/week-score-history').get(jwtAuth, lastSevenDaysScore)
 router.route('/your-daily-data').get(jwtAuth,yourDailyData)
 
 module.exports = router
