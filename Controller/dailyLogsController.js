@@ -134,7 +134,9 @@ exports.yourDailyData = async (req, res) => {
         data:data
     }) // Assuming you're sending data back as JSON
   } catch (error) {
-    console.error(error)
-    res.status(500).send('An error occurred') // Proper error handling
+    res.status(500).json({
+        success:false,
+        data:"something wents wrong"
+    }) // Proper error handling
   }
 }
