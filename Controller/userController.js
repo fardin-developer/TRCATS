@@ -69,7 +69,7 @@ exports.VerifyOtp = async (req, res) => {
         if (user) {
             if (user.OTP === otp) {
                 const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
-                    expiresIn: '1h',
+                    expiresIn: '7d',
                 });
                 res.status(200).json({
                     success: true,
