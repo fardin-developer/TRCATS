@@ -131,47 +131,6 @@
         }
       }
     },
-    "/home": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "banner_url": {
-                  "example": "any"
-                },
-                "title": {
-                  "example": "any"
-                },
-                "items": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/instruct": {
       "get": {
         "description": "",
@@ -222,6 +181,60 @@
     "/leader-board-result": {
       "get": {
         "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/about": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "banner_url": {
+                  "example": "any"
+                },
+                "title": {
+                  "example": "any"
+                },
+                "items": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
