@@ -7,11 +7,12 @@ const connectDB = require('./config/connectDB');
 
 // Routes
 const user = require('./routes/user');
-const home = require('./routes/home');
+const home = require('./routes/pageHome');
 const dailyLog = require('./routes/dailyLogs');
 const instruction = require('./routes/instruct');
 const sytemID = require('./routes/systemID');
 const leaderBoard = require('./routes/leaderBoard');
+const about = require('./routes/pageAbout')
 
 const app = express();
 
@@ -39,6 +40,7 @@ connectDB();
 // Routes
 app.use('/api', user);
 app.use('/api', home);
+app.use('/api', about);
 app.use('/api', dailyLog);
 app.use('/api', instruction);
 app.use('/api', sytemID);
