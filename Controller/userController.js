@@ -97,14 +97,22 @@ exports.Login = async (req, res) => {
         // console.log(email);
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(401).json({ error: 'Authentication failed' });
+            return res.status(401).json({
+                success: false,
+                message: 'Authentication failed',
+                error: 'Invalid credentials'
+            });
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            return res.status(401).json({ error: 'Authentication failed' });
+            return res.status(401).json({
+                success: false,
+                message: 'Authentication failed',
+                error: 'Invalid credentials'
+            });
         }
         const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
-            expiresIn: '24000h',
+            expiresIn: '15d'
         });
         res.status(200).json({
             success: true,
@@ -258,7 +266,7 @@ exports.CreateSystemUser = async (req, res) => {
         let systemUser = new SystemUser({
             userID: user._id,
             systemID,
-            dateOfJoin:now.format()
+            dateOfJoin: now.format()
         });
 
         await systemUser.save();
