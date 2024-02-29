@@ -13,10 +13,17 @@ function verifyToken(req, res, next) {
         req.userId = decoded.userId;
         next();
     } catch (error) {
-        res.status(401).json({ 
-            success: false,
-            message: 'Invalid token',
-             status: "invalid token" });
+        if (error.name === 'TokenExpiredError') {
+            return res.status(420).json({
+                success: false,
+                message: 'Token expired'
+            });
+        } else {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
     }
 };
 
