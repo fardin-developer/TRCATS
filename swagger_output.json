@@ -79,6 +79,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "420": {
+            "description": ""
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -102,6 +105,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "420": {
+            "description": ""
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -124,6 +130,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "420": {
+            "description": ""
           },
           "500": {
             "description": "Internal Server Error"
@@ -245,6 +254,26 @@
         }
       }
     },
+    "/privacy-policy": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/terms-condtion": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/create-systemid": {
       "post": {
         "description": "",
@@ -298,6 +327,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "420": {
+            "description": ""
           }
         }
       }
