@@ -12,7 +12,9 @@ const dailyLog = require('./routes/dailyLogs');
 const instruction = require('./routes/instruct');
 const sytemID = require('./routes/systemID');
 const leaderBoard = require('./routes/leaderBoard');
-const about = require('./routes/pageAbout')
+const about = require('./routes/pageAbout');
+const policy = require('./routes/pagePrivacy')
+const terms = require('./routes/pageTerms')
 
 const app = express();
 
@@ -45,6 +47,8 @@ app.use('/api', dailyLog);
 app.use('/api', instruction);
 app.use('/api', sytemID);
 app.use('/api', leaderBoard);
+app.use('/api', policy);
+app.use('/api', terms);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
