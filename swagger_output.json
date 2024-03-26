@@ -140,7 +140,7 @@
         }
       }
     },
-    "faq/": {
+    "/faq": {
       "get": {
         "description": "",
         "responses": {
