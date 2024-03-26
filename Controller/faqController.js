@@ -14,6 +14,7 @@ exports.getFAQs = async (req, res) => {
 exports.createFAQ = async (req, res) => {
   const { question, answer } = req.body;
   const faq = new FAQ({ question, answer });
+  console.log('ohk');
 
   try {
     const savedFAQ = await faq.save();
