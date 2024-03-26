@@ -15,6 +15,7 @@ const leaderBoard = require('./routes/leaderBoard');
 const about = require('./routes/pageAbout');
 const policy = require('./routes/pagePrivacy')
 const terms = require('./routes/pageTerms')
+const faq = require('./routes/faq')
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use('/api', sytemID);
 app.use('/api', leaderBoard);
 app.use('/api', policy);
 app.use('/api', terms);
+app.use('/api', faq);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
