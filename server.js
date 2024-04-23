@@ -41,16 +41,16 @@ app.use('/uploads', express.static('uploads'));
 connectDB();
 
 // Routes
-app.use('/api', user);
-app.use('/api', home);
-app.use('/api', about);
-app.use('/api', dailyLog);
-app.use('/api', instruction);
-app.use('/api', sytemID);
-app.use('/api', leaderBoard);
-app.use('/api', policy);
-app.use('/api', terms);
-app.use('/api', faq);
+app.use('/v1', user);
+app.use('/v1', home);
+app.use('/v1', about);
+app.use('/v1', dailyLog);
+app.use('/v1', instruction);
+app.use('/v1', sytemID);
+app.use('/v1', leaderBoard);
+app.use('/v1', policy);
+app.use('/v1', terms);
+app.use('/v1', faq);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
